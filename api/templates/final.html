@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+    <div style="text-align:center; margin-top:50px;">
+        <h2>🎉 Congratulations!</h2>
+        <p>Your total score is {{ total_score }} out of {{ total_questions }}.</p>
+        <a href="{{ url_for('index') }}" class="btn-grow" style="margin-top:20px;">Restart the Adventure</a>
+    </div>
+{% endblock %}

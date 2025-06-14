@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="quiz-container">
+  <div class="quiz-header">
+    <div class="phase-info">
+      <div class="phase-icon">{{ phase.icon }}</div>
+      <div>
+        <h2 class="phase-title">{{ phase.title }} – Complete!</h2>
+        <div class="phase-progress">
+          Score: <span class="score-correct">{{ correct_count }}</span> / 
+          <span class="score-total">{{ total_questions }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-bar" style="width: {{ (phase_index + 1) / total_phases * 100 }}%"></div>
+    </div>
+  </div>
+
+  <div class="quiz-content feedback-content">
+    <div class="results-summary">
+      <div class="summary-card {% if correct_count/total_questions >= 0.8 %}excellent{% elif correct_count/total_questions >= 0.5 %}good{% else %}needs-work{% endif %}">
+        <h3>Your Results</h3>
+        <div class="score-circle">
+          <span class="score-percent">{{ (correct_count/total_questions * 100)|round }}%</span>
+          <svg class="circle-chart" viewBox="0 0 36 36">
+            <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <path class="circle-fill" stroke-dasharray="{{ correct_count/total_questions * 100 }}, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+          </svg>
+        </div>
+        <p class="summary-message">
+          {% if correct_count == total_questions %}
+            Perfect score! 🎉
+          {% elif correct_count/total_questions >= 0.8 %}
+            Great job! You're getting it!
+          {% elif correct_count/total_questions >= 0.5 %}
+            Good effort! Review the answers below.
+          {% else %}
+            Keep practicing! Review the answers below.
+          {% endif %}
+        </p>
+      </div>
+    </div>
+
+    <div class="feedback-questions">
+      {% for item in feedback %}
+      <div class="question-card feedback-card {% if item.is_correct %}correct{% else %}incorrect{% endif %}">
+        <div class="question-header">
+          <span class="question-number">Q{{ loop.index }}</span>
+          <h3 class="question-text">{{ item.question }}</h3>
+          <span class="result-indicator">
+            {% if item.is_correct %}
+              ✅ صحيح
+            {% else %}
+              ❌ خطأ
+            {% endif %}
+          </span>
+        </div>
+
+        <div class="options-container">
+          {% for key, option in item.options.items() %}
+            <div class="option-wrapper feedback-option 
+                {% if key == item.correct %}correct-answer{% endif %}
+                {% if key == item.selected and not item.is_correct %}incorrect-selection{% endif %}">
+              <div class="option-feedback-marker">
+                {% if key == item.correct %}✓{% endif %}
+                {% if key == item.selected and not item.is_correct %}✕{% endif %}
+              </div>
+              <div class="option-content">
+                <span class="option-key">{{ key }}.</span>
+                <span class="option-text">{{ option }}</span>
+                {% if key == item.selected %}
+                  <span class="your-answer-label">(Your answer)</span>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="explanation-box">
+          <div class="explanation-icon">💡</div>
+          <div class="explanation-text">{{ item.explanation }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="navigation-buttons">
+      {% set total_phases = data.phases | length %}
+      {% if phase_index + 1 < total_phases %}
+        <a href="{{ url_for('phase', phase_index=phase_index + 1) }}" class="nav-button next-phase">
+          <span class="button-text">انتقل إلى المرحلة التالية</span>
+          <span class="button-icon">→</span>
+        </a>       
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

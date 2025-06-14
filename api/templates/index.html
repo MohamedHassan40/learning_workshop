@@ -1,0 +1,517 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="workshop-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash-message flash-{{ category }}">
+            <span class="flash-icon">
+                {% if category == 'success' %}✅
+                {% elif category == 'error' %}❌
+                {% elif category == 'warning' %}⚠️
+                {% else %}ℹ️{% endif %}
+            </span>
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <!-- Hero Section -->
+<section class="hero-section workshop-hero">
+    <div class="hero-content animate__animated animate__fadeInUp">
+        <h1 class="workshop-title">🚀 هل أنت مستعد لتطوير يومك باستخدام الذكاء الاصطناعي؟</h1>
+        <p class="workshop-subtitle">هذه ليست ورشة تقليدية، بل مغامرة تعليمية ممتعة مليئة بالتحديات والتطور الحقيقي.</p>
+        <p class="workshop-tagline">من الفوضى التقنية إلى التحول الذهني، صممنا الرحلة لتكون تفاعلية، واقعية، وملهمة.</p>
+        <a class="btn-super workshop-cta mt-6" href="{{ url_for('phase', phase_index=0) }}">ابدأ المغامرة</a>
+    </div>
+    <div class="hero-illustration animate__animated animate__fadeIn">
+        <img alt="ورشة الذكاء الاصطناعي" class="hero-image" src="{{ url_for('static', filename='images/image1.jpg') }}"/>
+        <div class="speech-bubble animate__animated animate__bounceIn delay-1s">
+            "لننمو معاً!"
+        </div>
+    </div>
+</section>
+
+
+    <!-- Value Proposition -->
+    <section class="value-section">
+        <h2 class="section-heading">لماذا هذه الورشة مهمة؟</h2>
+        <p class="section-subheading">طور مهاراتك التقنية وطريقة تفكيرك لتحقيق النجاح المستدام</p>
+        
+        <div class="value-grid">
+            <div class="value-card">
+                <div class="value-icon">🧠</div>
+                <h3>تغيير الذهنية</h3>
+                <p>تعلم كيف تتعامل مع التحديات وتستمر رغم الصعوبات كما يفعل المحترفون.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">💻</div>
+                <h3>تقنيات عملية</h3>
+                <p>سيناريوهات عملية تحاكي تحديات العمل اليومية وتوضح كيفية استخدام الذكاء الاصطناعي.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🚀</div>
+                <h3>نمو سريع</h3>
+                <p>ادمج بين الأدوات الذكية والتفكير المنهجي لتحقيق تطور أسرع.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workshop Modules -->
+    <section class="modules-section">
+        <div class="section-header">
+            <h2 class="section-heading">رحلة التعلم</h2>
+            <p class="section-subheading">تنقل بين مراحل مصممة بعناية لتغطي جميع الجوانب</p>
+        </div>
+        
+        <div class="modules-timeline">
+            {% for phase in workshop_data.phases %}
+            <div class="module-item">
+                <div class="module-marker">
+                    <div class="module-icon">{{ phase.icon }}</div>
+                </div>
+                <div class="module-content">
+                    <div class="module-header">
+                        <h3>{{ phase.title }}</h3>
+                        
+                    </div>
+                    <p class="module-description">{{ phase.description }}</p>
+                    <div class="module-stats">
+                        <span>{{ phase.questions|length }} challenges</span>
+                        <span>•</span>
+                    </div>
+                    <a href="{{ url_for('phase', phase_index=loop.index0) }}" class="module-button">
+                        ابدأ المرحلة
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+
+    <!-- Final CTA -->
+    <section class="cta-section">
+        <h2>هل أنت مستعد لتحويل طريقة عملك؟</h2>
+        <p>انضم إلى زملائك وابدأ التطور الآن</p>
+        <a href="{{ url_for('phase', phase_index=0) }}" class="cta-button">
+            ابدأ الورشة
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+    </section>
+</main>
+
+<style>
+    /* Base Styles */
+.workshop-container {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --text: #f1f5f9;
+    --text-light: #cbd5e1;
+    --bg: #1e1b4b; /* deep violet/blue background */
+    --card-bg: #312e81; /* dark card background to match theme */
+    --border: #4338ca;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --info: #3b82f6;
+
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    padding-bottom: 4rem;
+}
+
+
+    /* Section Styles */
+    section {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .section-heading {
+        font-size: 2rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 0.5rem;
+        text-align: center;
+    }
+
+    .section-subheading {
+        font-size: 1.125rem;
+        color: var(--text-light);
+        margin-bottom: 2.5rem;
+        text-align: center;
+    }
+
+    /* Hero Section */
+    .hero-section {
+        padding: 4rem 2rem;
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        color: white;
+        border-radius: 0 0 1.5rem 1.5rem;
+        margin-bottom: 4rem;
+    }
+
+    .hero-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: center;
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.25rem;
+        opacity: 0.9;
+        margin-bottom: 2rem;
+    }
+
+    .hero-highlights {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .highlight-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1rem;
+    }
+
+    .highlight-icon {
+        font-size: 1.25rem;
+    }
+
+    .hero-image {
+        position: relative;
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    .hero-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .floating-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        color: var(--primary-dark);
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .floating-badge span {
+        background: var(--primary-dark);
+        color: white;
+        padding: 0.125rem 0.5rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+    }
+
+    /* Value Proposition */
+    .value-section {
+        margin-bottom: 6rem;
+        
+
+    }
+
+    .value-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .value-card {
+        background: var(--card-bg);
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .value-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .value-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .value-card h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        color: white;
+    }
+
+    .value-card p {
+        color: var(--text-light);
+        font-size: 1rem;
+    }
+
+    /* Modules Section */
+    .modules-section {
+        margin-bottom: 6rem;
+    }
+
+    .modules-timeline {
+        position: relative;
+        padding-left: 2rem;
+        margin-left: 1rem;
+    }
+
+    .modules-timeline::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 2px;
+        background: var(--border);
+    }
+
+    .module-item {
+        position: relative;
+        margin-bottom: 2.5rem;
+        display: flex;
+    }
+
+    .module-marker {
+        position: absolute;
+        left: -2.5rem;
+        top: 0;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        background: var(--card-bg);
+        border: 4px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+    }
+
+    .module-icon {
+        font-size: 1.25rem;
+    }
+
+    .module-content {
+        background: var(--card-bg);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        flex: 1;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .module-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .module-header h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: white;
+    }
+
+    .module-difficulty {
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+    }
+
+    .difficulty-1 {
+        background: #ecfdf5;
+        color: #059669;
+    }
+    .difficulty-2 {
+        background: #fef3c7;
+        color: #d97706;
+    }
+    .difficulty-3, .difficulty-4 {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+
+    .module-description {
+        color: var(--text-light);
+        margin-bottom: 1.5rem;
+    }
+
+    .module-stats {
+        display: flex;
+        gap: 0.75rem;
+        color: var(--text-light);
+        font-size: 0.875rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* CTA Section */
+    .cta-section {
+        text-align: center;
+        background: var(--card-bg);
+        padding: 4rem 2rem;
+        border-radius: 1.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .cta-section h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: white;
+    }
+
+    .cta-section p {
+        font-size: 1.125rem;
+        color: var(--text-light);
+        margin-bottom: 2rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Button Styles */
+    .cta-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: white;
+        color: var(--primary-dark);
+        font-weight: 600;
+        padding: 0.875rem 1.75rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+    .cta-button:hover {
+        background: #f1f5f9;
+        transform: translateY(-2px);
+    }
+
+    .cta-button svg {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    .module-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--primary);
+        color: white;
+        font-weight: 500;
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+    .module-button:hover {
+        background: var(--primary-dark);
+    }
+
+    .module-button svg {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    /* Flash Messages */
+    .flash-messages {
+        max-width: 1200px;
+        margin: 0 auto 2rem;
+        padding: 0 2rem;
+    }
+
+    .flash-message {
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .hero-content {
+            grid-template-columns: 1fr;
+        }
+        
+        .hero-text {
+            order: 2;
+        }
+        
+        .hero-image {
+            order: 1;
+        }
+        
+        
+        .modules-timeline {
+            padding-left: 1.5rem;
+            margin-left: 0.5rem;
+        }
+        
+        .module-marker {
+            left: -1.75rem;
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .section-heading {
+            font-size: 1.75rem;
+        }
+        
+        .hero-title {
+            font-size: 2rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.125rem;
+        }
+        
+        .value-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}

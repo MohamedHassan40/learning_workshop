@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="quiz-container">
+    <div class="quiz-header">
+        <div class="phase-info">
+            <div class="phase-icon">{{ phase.icon }}</div>
+            <div>
+                <h2 class="phase-title">{{ phase.title }}</h2>
+                <div class="phase-progress">
+                    المرحلة <span class="current-phase">{{ phase_index + 1 }}</span> من 
+                    <span class="total-phases">{{ total_phases }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" style="width: {{ (phase_index + 1) / total_phases * 100 }}%"></div>
+        </div>
+    </div>
+
+    <div class="quiz-content">
+        <div class="phase-intro">
+            <h3>المقدمة</h3>
+            <p>{{ phase.intro }}</p>
+        </div>
+
+        {% if phase.video_url %}
+        <div class="video-container">
+            <video controls >
+                <source src="{{ phase.video_url }}" type="video/mp4">
+                Your browser does not support HTML5 video.
+            </video>
+        </div>
+        {% endif %}
+
+        <div class="phase-description">
+            <h3>الوصف العام</h3>
+            <p>{{ phase.description }}</p>
+            
+            <h3>السيناريو</h3>
+            <p>{{ phase.scenario }}</p>
+            <h3>لماذا هذا مهم؟</h3>
+            <p>{{phase.why_this_matters}}</p>
+        </div>
+
+<form method="POST" class="quiz-form" id="quizForm">
+  {% for question in phase.questions %}
+    {# Capture the question index once #}
+    {% set q_index = loop.index0 %}
+
+    <div class="question-card">
+      <div class="question-header">
+        <span class="question-number">Q{{ loop.index }}</span>
+        <h3 class="question-text">{{ question.question }}</h3>
+      </div>
+
+      <div class="options-container">
+        {% for key, value in question.options.items() %}
+          <div class="option-wrapper">
+            <input
+              type="radio"
+              name="phase{{ phase_index }}_q{{ q_index }}"
+              value="{{ key }}"
+              id="phase{{ phase_index }}_q{{ q_index }}_{{ key }}"
+              class="option-input"
+              required>
+            <label
+              for="phase{{ phase_index }}_q{{ q_index }}_{{ key }}"
+              class="option-label">
+              <span class="option-key">{{ key }}</span>
+              <span class="option-text">{{ value }}</span>
+            </label>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+
+  <button type="submit" class="submit-button">
+    إرسال الإجابات
+    <span class="button-arrow">➤</span>
+  </button>
+</form>
+
+    </div>
+</div>
+
+<script>
+    // This ensures only one option can be selected per question
+    document.querySelectorAll('.options-container').forEach(container => {
+        const radioButtons = container.querySelectorAll('input[type="radio"]');
+        
+        radioButtons.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    // Uncheck other radios in the same question
+                    radioButtons.forEach(rb => {
+                        if (rb !== this) {
+                            rb.checked = false;
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

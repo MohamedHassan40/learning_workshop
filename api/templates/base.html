@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="theme-dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title if title else "🧠 Mindset Workshop" }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+</head>
+
+<body>
+    
+    <div class="page-wrapper">
+        <!-- Animated background -->
+        <div class="bg-animation">
+            <div class="bg-circle"></div>
+            <div class="bg-circle"></div>
+            <div class="bg-circle"></div>
+            <div class="bg-circle"></div>
+        </div>
+
+<header class="main-header">
+    <div class="header-content">
+        <div class="logo-container">
+            <h1 class="logo-text">
+                <span class="logo-main">Learning</span>
+            </h1>
+        </div>
+        <nav class="main-nav">
+            <a href="/" class="nav-link active">Home</a>
+            
+            <!-- Workshops Dropdown -->
+            
+<div class="dropdown">
+    <button class="dropbtn">المراحل 
+        <i class="fas fa-chevron-down"></i>
+    </button>
+    <div class="dropdown-content">
+        <a href="/phase/0">🗂️ تشخيص المهام اليومية</a>
+        <a href="/phase/1">🧰 أدوات الذكاء الاصطناعي</a>
+        <a href="/phase/2">⚙️ كيف تستخدم الذكاء الاصطناعي؟</a>
+        <a href="/phase/3">🎯 هندسة التعليمات</a>
+        <a href="/phase/4">🔁 مختبر الأتمتة</a>
+        <a href="/phase/5">📊 إتقان تطبيقات Google</a>
+    </div>
+</div>
+
+
+        </nav>
+    </div>
+</header>
+
+<style>
+    /* Dropdown Styles */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+    .dropbtn {
+        background: transparent;
+        color: #e6f1ff;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        padding: 0;
+        margin-left: 1.5rem;
+        font-family: inherit;
+        transition: color 0.3s;
+    }
+    .dropbtn:hover {
+        color: #64ffda;
+    }
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background: #16213e;
+        min-width: 240px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        border-radius: 4px;
+        z-index: 1;
+        padding: 12px 0;
+    }
+    .dropdown-content a {
+        color: #e6f1ff;
+        padding: 8px 16px;
+        text-decoration: none;
+        display: block;
+        transition: background 0.2s;
+    }
+    .dropdown-content a:hover {
+        background: rgba(100, 255, 218, 0.1);
+    }
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+    .dropdown i {
+        margin-left: 6px;
+        font-size: 0.8em;
+    }
+</style>
+
+<!-- Font Awesome for chevron icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+         {% block content %}{% endblock %}
+
+
+        <script>
+            // Initialize Swiper sliders
+            const featuresSwiper = new Swiper('.features-swiper', {
+                loop: true,
+                pagination: {
+                    el: '.features-swiper .swiper-pagination',
+                    clickable: true,
+                },
+                autoplay: {
+                    delay: 5000,
+                },
+            });
+
+            const testimonialsSwiper = new Swiper('.testimonials-swiper', {
+                loop: true,
+                pagination: {
+                    el: '.testimonials-swiper .swiper-pagination',
+                    clickable: true,
+                },
+                autoplay: {
+                    delay: 7000,
+                },
+            });
+
+            // Animate numbers
+            function animateNumbers() {
+                const numberElements = document.querySelectorAll('.animate-number');
+
+                numberElements.forEach(element => {
+                    const target = parseInt(element.getAttribute('data-target'));
+                    const duration = 2000;
+                    const step = target / (duration / 16);
+                    let current = 0;
+
+                    const updateNumber = () => {
+                        current += step;
+                        if (current < target) {
+                            element.textContent = Math.floor(current);
+                            requestAnimationFrame(updateNumber);
+                        } else {
+                            element.textContent = target;
+                        }
+                    };
+
+                    updateNumber();
+                });
+            }
+
+            // Trigger animation when section is in view
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateNumbers();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            const statsSection = document.querySelector('.stats-grid');
+            if (statsSection) {
+                observer.observe(statsSection);
+            }
+        </script>
+
+        <!-- Confetti effect -->
+        <canvas id="confetti-canvas"></canvas>
+
+        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+        <script src="{{ url_for('static', filename='js/animations.js') }}"></script>
+</body>
+
+</html>
