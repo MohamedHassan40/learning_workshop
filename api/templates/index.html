@@ -22,87 +22,84 @@
     <!-- Hero Section -->
 <section class="hero-section workshop-hero">
     <div class="hero-content animate__animated animate__fadeInUp">
-        <h1 class="workshop-title">🚀 هل أنت مستعد لتطوير يومك باستخدام الذكاء الاصطناعي؟</h1>
-        <p class="workshop-subtitle">هذه ليست ورشة تقليدية، بل مغامرة تعليمية ممتعة مليئة بالتحديات والتطور الحقيقي.</p>
-        <p class="workshop-tagline">من الفوضى التقنية إلى التحول الذهني، صممنا الرحلة لتكون تفاعلية، واقعية، وملهمة.</p>
-        <a class="btn-super workshop-cta mt-6" href="{{ url_for('phase', phase_index=0) }}">ابدأ المغامرة</a>
+        <h1 class="workshop-title">{{ workshop_data.intro.title }}</h1>
+        <p class="workshop-subtitle">{{ workshop_data.intro.description }}</p>
+        <p class="workshop-tagline">{{ workshop_data.intro.subtitle }}</p>
+        <a class="btn-super workshop-cta mt-6" href="{{ url_for('phase', phase_index=0) }}">ابدأ الرحلة</a>
     </div>
     <div class="hero-illustration animate__animated animate__fadeIn">
-        <img alt="ورشة الذكاء الاصطناعي" class="hero-image" src="{{ url_for('static', filename='images/image1.jpg') }}"/>
+        <img alt="ورشة الذكاء الاصطناعي" class="hero-image" src="{{ url_for('static', filename='images/image3.jpg') }}"/>
         <div class="speech-bubble animate__animated animate__bounceIn delay-1s">
-            "لننمو معاً!"
+            "لنرتقي معاً!"
         </div>
     </div>
 </section>
 
-
-    <!-- Value Proposition -->
-    <section class="value-section">
-        <h2 class="section-heading">لماذا هذه الورشة مهمة؟</h2>
-        <p class="section-subheading">طور مهاراتك التقنية وطريقة تفكيرك لتحقيق النجاح المستدام</p>
-        
-        <div class="value-grid">
-            <div class="value-card">
-                <div class="value-icon">🧠</div>
-                <h3>تغيير الذهنية</h3>
-                <p>تعلم كيف تتعامل مع التحديات وتستمر رغم الصعوبات كما يفعل المحترفون.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">💻</div>
-                <h3>تقنيات عملية</h3>
-                <p>سيناريوهات عملية تحاكي تحديات العمل اليومية وتوضح كيفية استخدام الذكاء الاصطناعي.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">🚀</div>
-                <h3>نمو سريع</h3>
-                <p>ادمج بين الأدوات الذكية والتفكير المنهجي لتحقيق تطور أسرع.</p>
-            </div>
+<!-- Value Proposition -->
+<section class="value-section">
+    <h2 class="section-heading">ماذا ستتعلم في هذه الورشة؟</h2>
+    <p class="section-subheading">ارتقِ بمهاراتك في الذكاء الاصطناعي وأتمتة المهام</p>
+    
+    <div class="value-grid">
+        <div class="value-card">
+            <div class="value-icon">🤖</div>
+            <h3>أدوات الذكاء الاصطناعي</h3>
+            <p>اكتشف أحدث أدوات الذكاء الاصطناعي وكيفية دمجها في عملك اليومي</p>
         </div>
-    </section>
-
-    <!-- Workshop Modules -->
-    <section class="modules-section">
-        <div class="section-header">
-            <h2 class="section-heading">رحلة التعلم</h2>
-            <p class="section-subheading">تنقل بين مراحل مصممة بعناية لتغطي جميع الجوانب</p>
+        <div class="value-card">
+            <div class="value-icon">⚡</div>
+            <h3>أتمتة المهام</h3>
+            <p>حول المهام الروتينية إلى تدفقات عمل تلقائية توفر وقتك</p>
         </div>
-        
-        <div class="modules-timeline">
-            {% for phase in workshop_data.phases %}
-            <div class="module-item">
-                <div class="module-marker">
-                    <div class="module-icon">{{ phase.icon }}</div>
-                </div>
-                <div class="module-content">
-                    <div class="module-header">
-                        <h3>{{ phase.title }}</h3>
-                        
-                    </div>
-                    <p class="module-description">{{ phase.description }}</p>
-                    <div class="module-stats">
-                        <span>{{ phase.questions|length }} اسئلة</span>
-                        <span>•</span>
-                    </div>
-                    <a href="{{ url_for('phase', phase_index=loop.index0) }}" class="module-button">
-                        ابدأ المرحلة
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </a>
-                </div>
+        <div class="value-card">
+            <div class="value-icon">🧠</div>
+            <h3>هندسة التعليمات</h3>
+            <p>تعلم فن صياغة التعليمات للحصول على أفضل النتائج من الذكاء الاصطناعي</p>
+        </div>
+    </div>
+</section>
+
+<!-- Workshop Phases -->
+<section class="phases-section">
+    <div class="section-header">
+        <h2 class="section-heading">مراحل الورشة</h2>
+        <p class="section-subheading">رحلة متكاملة من الأساسيات إلى التطبيق العملي</p>
+    </div>
+    
+    <div class="phases-grid">
+        {% for phase in workshop_data.phases %}
+        <div class="phase-card">
+            <div class="phase-icon">{{ phase.icon }}</div>
+            <h3 class="phase-title">{{ phase.title }}</h3>
+            <p class="phase-description">{{ phase.description }}</p>
+            <div class="phase-stats">
+                <span>{{ phase.questions|length }} أسئلة</span>
+                <span>•</span>
+                <span>2 أسئلة مفتوحة</span>
             </div>
-            {% endfor %}
+<a href="{{ url_for('phase', phase_index=loop.index0) }}" class="phase-button">
+  <svg xmlns="http://www.w3.org/2000/svg" class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M19 12H5M12 19l-7-7 7-7" />
+  </svg>
+  ابدأ التحدي
+</a>
+
+
         </div>
-    </section>
+        {% endfor %}
+    </div>
+</section>
 
-
-    <!-- Final CTA -->
-    <section class="cta-section">
-        <h2>هل أنت مستعد لتحويل طريقة عملك؟</h2>
-        <p>انضم إلى زملائك وابدأ التطور الآن</p>
-        <a href="{{ url_for('phase', phase_index=0) }}" class="cta-button">
-            ابدأ الورشة
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-    </section>
+<!-- Final CTA -->
+<section class="cta-section">
+    <h2>جاهز لتحويل طريقة عملك؟</h2>
+    <p>انضم إلى ورشة العمل وابدأ رحلتك مع الذكاء الاصطناعي اليوم</p>
+    <a href="{{ url_for('phase', phase_index=0) }}" class="cta-button">
+        ابدأ الآن
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+</section>
 </main>
 
 <style>

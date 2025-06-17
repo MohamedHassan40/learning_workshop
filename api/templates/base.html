@@ -27,36 +27,32 @@
             <div class="bg-circle"></div>
         </div>
 
-<header class="main-header">
-    <div class="header-content">
-        <div class="logo-container">
-            <h1 class="logo-text">
-                <span class="logo-main">التحول الذكي</span>
-            </h1>
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo-container">
+                <a href="/" class="logo-link">
+                    <h1 class="logo-text">
+                        <span class="logo-main">ارتقِ بالذكاء الاصطناعي</span>
+                    </h1>
+                </a>
+            </div>
+            <nav class="main-nav">
+                <a href="/" class="nav-link active">الرئيسية</a>
+                
+                <!-- Phases Dropdown -->
+                <div class="dropdown">
+                    <button class="dropbtn">المراحل 
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        {% for phase in workshop_data.phases %}
+                        <a href="{{ url_for('phase', phase_index=loop.index0) }}">{{ phase.icon }} {{ phase.title }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </nav>
         </div>
-        <nav class="main-nav">
-            <a href="/" class="nav-link active">الرئيسية</a>
-            
-            <!-- Workshops Dropdown -->
-            
-<div class="dropdown">
-    <button class="dropbtn">المراحل 
-        <i class="fas fa-chevron-down"></i>
-    </button>
-    <div class="dropdown-content">
-        <a href="/phase/0">🗂️ تشخيص المهام اليومية</a>
-        <a href="/phase/1">🧰 أدوات الذكاء الاصطناعي</a>
-        <a href="/phase/2">⚙️ كيف تستخدم الذكاء الاصطناعي؟</a>
-        <a href="/phase/3">🎯 هندسة التعليمات</a>
-        <a href="/phase/4">🔁 مختبر الأتمتة</a>
-        <a href="/phase/5">📊 إتقان تطبيقات Google</a>
-    </div>
-</div>
-
-
-        </nav>
-    </div>
-</header>
+    </header>
 
 <style>
     /* Dropdown Styles */

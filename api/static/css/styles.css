@@ -1150,3 +1150,34 @@ body {
     stroke-dasharray: 0, 100;
   }
 }
+
+.phase-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: white;
+  color: #1a1a1a;
+  padding: 10px 18px;
+  border: 2px solid #1a1a1a;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  direction: rtl;
+}
+
+.phase-button:hover {
+  background-color: #1a1a1a;
+  color: white;
+}
+
+.phase-button .arrow-icon {
+  transform: rotate(0deg);
+  transition: transform 0.3s ease;
+}
+
+.phase-button:hover .arrow-icon {
+  transform: translateX(-4px);
+}
