@@ -1,106 +1,129 @@
 {% extends "base.html" %}
 {% block content %}
+
 <div class="quiz-container">
-    <div class="quiz-header">
-        <div class="phase-info">
-            <div class="phase-icon">{{ phase.icon }}</div>
-            <div>
-                <h2 class="phase-title">{{ phase.title }}</h2>
-                <div class="phase-progress">
-                    المرحلة <span class="current-phase">{{ phase_index + 1 }}</span> من 
-                    <span class="total-phases">{{ total_phases }}</span>
-                </div>
-            </div>
+  <div class="quiz-header">
+    <div class="phase-info">
+      <div class="phase-icon">{{ phase.icon }}</div>
+      <div>
+        <h2 class="phase-title">{{ phase.title }}</h2>
+        <div class="phase-progress">
+          المرحلة <span class="current-phase">{{ phase_index + 1 }}</span> من
+          <span class="total-phases">{{ total_phases }}</span>
         </div>
-        <div class="progress-bar-container">
-            <div class="progress-bar" style="width: {{ (phase_index + 1) / total_phases * 100 }}%"></div>
-        </div>
+      </div>
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-bar" style="width: {{ (phase_index + 1) / total_phases * 100 }}%"></div>
+    </div>
+  </div>
+
+  <div class="quiz-content">
+    <div class="phase-intro">
+      <h3>المقدمة</h3>
+      <p>{{ phase.intro }}</p>
     </div>
 
-    <div class="quiz-content">
-        <div class="phase-intro">
-            <h3>المقدمة</h3>
-            <p>{{ phase.intro }}</p>
+    {% if phase.video_url %}
+    <div class="video-container">
+      <video controls>
+        <source src="{{ phase.video_url }}" type="video/mp4">
+        Your browser does not support HTML5 video.
+      </video>
+    </div>
+    {% endif %}
+
+    <div class="phase-description">
+      <h3>الوصف العام</h3>
+      <p>{{ phase.description }}</p>
+
+      <h3>السيناريو</h3>
+      <p>{{ phase.scenario }}</p>
+      <h3>لماذا هذا مهم؟</h3>
+      <p>{{phase.why_this_matters}}</p>
+    </div>
+    <form method="POST" action="{{ url_for('phase', phase_index=phase_index) }}" class="quiz-form" id="quizForm"
+      onsubmit="return handleFormSubmit(event)">
+<div class="form-field" style="text-align: right; margin-bottom: 20px;">
+  <label for="name" style="color: var(--light); font-size: 1rem; font-weight: 600; display: block;">الاسم</label>
+  <input type="text" id="name" name="name" placeholder="اكتب اسمك" style="padding: 1rem; background: rgba(31, 111, 235, 0.1); border: 1px solid rgba(88, 166, 255, 0.2); border-radius: 6px; color: var(--light); font-size: 1rem; transition: all 0.3s ease; width: 100%; max-width: 300px;">
+</div>
+
+<div class="form-field" style="text-align: right; margin-bottom: 20px;">
+  <label for="email" style="color: var(--light); font-size: 1rem; font-weight: 600; display: block;">بريد إلكتروني</label>
+  <input type="email" id="email" name="email" placeholder="أدخل بريدك الإلكتروني" style="padding: 1rem; background: rgba(31, 111, 235, 0.1); border: 1px solid rgba(88, 166, 255, 0.2); border-radius: 6px; color: var(--light); font-size: 1rem; transition: all 0.3s ease; width: 100%; max-width: 300px;">
+</div>
+
+
+
+      {% for question in phase.questions %}
+      {% set q_index = loop.index0 %}
+      <div class="question-card">
+        <div class="question-header">
+          <span class="question-number">Q{{ loop.index }}</span>
+          <h3 class="question-text">{{ question.question }}</h3>
         </div>
-
-        {% if phase.video_url %}
-        <div class="video-container">
-            <video controls >
-                <source src="{{ phase.video_url }}" type="video/mp4">
-                Your browser does not support HTML5 video.
-            </video>
-        </div>
-        {% endif %}
-
-        <div class="phase-description">
-            <h3>الوصف العام</h3>
-            <p>{{ phase.description }}</p>
-            
-            <h3>السيناريو</h3>
-            <p>{{ phase.scenario }}</p>
-            <h3>لماذا هذا مهم؟</h3>
-            <p>{{phase.why_this_matters}}</p>
-        </div>
-
-<form method="POST" class="quiz-form" id="quizForm">
-  {% for question in phase.questions %}
-    {# Capture the question index once #}
-    {% set q_index = loop.index0 %}
-
-    <div class="question-card">
-      <div class="question-header">
-        <span class="question-number">Q{{ loop.index }}</span>
-        <h3 class="question-text">{{ question.question }}</h3>
-      </div>
-
-      <div class="options-container">
-        {% for key, value in question.options.items() %}
+        <div class="options-container">
+          {% for key, value in question.options.items() %}
           <div class="option-wrapper">
-            <input
-              type="radio"
-              name="phase{{ phase_index }}_q{{ q_index }}"
-              value="{{ key }}"
-              id="phase{{ phase_index }}_q{{ q_index }}_{{ key }}"
-              class="option-input"
-              required>
-            <label
-              for="phase{{ phase_index }}_q{{ q_index }}_{{ key }}"
-              class="option-label">
+            <input type="checkbox" name="phase{{ phase_index }}_q{{ q_index }}" value="{{ key }}"
+              id="phase{{ phase_index }}_q{{ q_index }}_{{ key }}" class="option-input">
+            <label for="phase{{ phase_index }}_q{{ q_index }}_{{ key }}" class="option-label">
               <span class="option-key">{{ key }}</span>
               <span class="option-text">{{ value }}</span>
             </label>
           </div>
-        {% endfor %}
+          {% endfor %}
+        </div>
       </div>
-    </div>
-  {% endfor %}
 
-  <button type="submit" class="submit-button">
-    إرسال الإجابات
-    <span class="button-arrow">➤</span>
-  </button>
-</form>
 
-    </div>
-</div>
+      {% endfor %}
+            {% if phase.open_ended %}
+  <div class="open-ended-section">
+    <h3>✏️ الأسئلة المفتوحة</h3>
+    {% for q in phase.open_ended %}
+      <div class="open-question">
+        <label for="{{ q.field_name }}">{{ q.question }}</label><br>
+        <textarea name="{{ q.field_name }}" id="{{ q.field_name }}" rows="4" class="open-textarea" placeholder="اكتب إجابتك هنا..."></textarea>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
 
-<script>
-    // This ensures only one option can be selected per question
-    document.querySelectorAll('.options-container').forEach(container => {
-        const radioButtons = container.querySelectorAll('input[type="radio"]');
-        
-        radioButtons.forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.checked) {
-                    // Uncheck other radios in the same question
-                    radioButtons.forEach(rb => {
-                        if (rb !== this) {
-                            rb.checked = false;
-                        }
-                    });
-                }
-            });
+      <button type="submit" class="submit-button">
+        إرسال الإجابات <span class="button-arrow">➤</span>
+      </button>
+    </form>
+
+    <script>
+      async function handleFormSubmit(e) {
+        e.preventDefault();
+
+        const form = document.getElementById("quizForm");
+        const formData = new FormData(form);
+
+        // Prepare Formspree payload
+        const payload = {};
+        for (let [key, value] of formData.entries()) {
+          if (payload[key]) {
+            if (!Array.isArray(payload[key])) payload[key] = [payload[key]];
+            payload[key].push(value);
+          } else {
+            payload[key] = value;
+          }
+        }
+
+        // Send data to Formspree (in the background)
+        await fetch("https://formspree.io/f/xvgrrvkw", {
+          method: "POST",
+          headers: { 'Accept': 'application/json' },
+          body: new URLSearchParams(payload)
         });
-    });
-</script>
-{% endblock %}
+
+        // Submit form to backend for scoring
+        form.removeEventListener("submit", handleFormSubmit);
+        form.submit();
+      }
+    </script>
+    {% endblock %}

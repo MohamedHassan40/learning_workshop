@@ -57,30 +57,54 @@
           </span>
         </div>
 
-        <div class="options-container">
-          {% for key, option in item.options.items() %}
-            <div class="option-wrapper feedback-option 
-                {% if key == item.correct %}correct-answer{% endif %}
-                {% if key == item.selected and not item.is_correct %}incorrect-selection{% endif %}">
-              <div class="option-feedback-marker">
-                {% if key == item.correct %}✓{% endif %}
-                {% if key == item.selected and not item.is_correct %}✕{% endif %}
-              </div>
-              <div class="option-content">
-                <span class="option-key">{{ key }}.</span>
-                <span class="option-text">{{ option }}</span>
-                {% if key == item.selected %}
-                  <span class="your-answer-label">(Your answer)</span>
-                {% endif %}
-              </div>
-            </div>
-          {% endfor %}
-        </div>
+<div class="options-container">
+  {% set selected_list = item.selected if item.selected is iterable else [item.selected] %}
+  {% set correct_list = item.correct if item.correct is iterable else [item.correct] %}
 
-        <div class="explanation-box">
-          <div class="explanation-icon">💡</div>
-          <div class="explanation-text">{{ item.explanation }}</div>
-        </div>
+  {% for key, option in item.options.items() %}
+    {% set is_selected = key in selected_list %}
+    {% set is_correct = key in correct_list %}
+
+    <div class="option-wrapper feedback-option 
+        {% if is_correct %}correct-answer{% endif %}
+        {% if is_selected and not is_correct %}incorrect-selection{% endif %}">
+      <div class="option-feedback-marker">
+        {% if is_correct and is_selected %}✅{% endif %}
+        {% if is_correct and not is_selected %}✔️{% endif %}
+        {% if is_selected and not is_correct %}❌{% endif %}
+      </div>
+      <div class="option-content">
+        <span class="option-key">{{ key }}.</span>
+        <span class="option-text">{{ option }}</span>
+        {% if is_selected %}
+          <span class="your-answer-label">(إجابتك)</span>
+        {% endif %}
+        {% if is_correct and not is_selected %}
+          <span class="missed-correct-label">(إجابة صحيحة لم تخترها)</span>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<div class="explanation-box">
+  <div class="explanation-icon">💡</div>
+  <div class="explanation-text">
+    <strong>التفسير:</strong> {{ item.explanation }}
+  </div>
+  {% if not item.is_correct %}
+    <div class="correction-text">
+      <strong>💡 الإجابات الصحيحة:</strong>
+      {{ correct_list | join(', ') }}
+      <br/>
+      <strong>❌ إجاباتك:</strong>
+      {{ selected_list | join(', ') }}
+    </div>
+  {% endif %}
+</div>
+
+
+        
       </div>
       {% endfor %}
     </div>
