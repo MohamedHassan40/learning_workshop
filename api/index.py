@@ -132,6 +132,63 @@ def final():
     total_questions = sum(len(p['questions']) for p in data['phases'])
     return render_template('final.html', total_score=total_score, total_questions=total_questions)
 
+import re
+from urllib.parse import urlparse, parse_qs
+
+def convert_to_embed_url(url):
+    parsed_url = urlparse(url)
+    query_params = parse_qs(parsed_url.query)
+    video_id = query_params.get("v", [""])[0]
+    playlist_id = query_params.get("list", [""])[0]
+    embed_url = f"https://www.youtube.com/embed/{video_id}"
+    if playlist_id:
+        embed_url += f"?list={playlist_id}"
+    return embed_url
+
+
+from flask import render_template
+from urllib.parse import urlparse, parse_qs
+
+@app.route('/videos')
+def videos():
+    youtube_videos = [
+        {"title": "How to summarize selected text in Google Docs", "url": "https://www.youtube.com/watch?v=2xVlvfLNlV0&list=PLU8ezI8GYqs5zUuo096bI4_FFgeWAR1ug&index=9"},
+        {"title": "How to use Help me Write in Gmail", "url": "https://www.youtube.com/watch?v=PRkCkKhO-3k&list=PLU8ezI8GYqs5zUuo096bI4_FFgeWAR1ug&index=12"},
+        {"title": "How to translate captions in Google Meet", "url": "https://www.youtube.com/watch?v=VGqsYmuYgVs&list=PLU8ezI8GYqs5zUuo096bI4_FFgeWAR1ug&index=14"},
+        {"title": "Voting in Google Docs", "url": "https://www.youtube.com/watch?v=Kx_gFG9_Ook&list=PLU8ezI8GYqs5zUuo096bI4_FFgeWAR1ug&index=21"},
+        {"title": "Mail merge in Gmail", "url": "https://www.youtube.com/watch?v=tIXhg9fBEUY&list=PLU8ezI8GYqs5zUuo096bI4_FFgeWAR1ug&index=31"},
+        {"title": "How to RSVP to a meeting with your location in Google Calendar", "url": "https://www.youtube.com/watch?v=xIQAPJAuSzo&list=PLU8ezI8GYqs5zUuo096bI4_FFgeWAR1ug&index=61"},
+        {"title": "How to add a background image in Google Keep", "url": "https://www.youtube.com/watch?v=eT_be-GIsKQ&list=PLU8ezI8GYqs5zUuo096bI4_FFgeWAR1ug&index=63"},
+        {"title": "Free hidden dictation tool in google docs", "url": "https://www.youtube.com/watch?v=CCpKu5VRmVM&list=PLouep20JDz2NQ-iczT4ewqag9Zx0_2zFj&index=5"},
+        {"title": "Tab Groups In Google Chrome | Stay Organized With Tab Groups", "url": "https://www.youtube.com/watch?v=tsBX3Xk36m8&list=PLouep20JDz2NQ-iczT4ewqag9Zx0_2zFj&index=6"},
+        {"title": "Unsend an email In Gmail | Gmail Hack", "url": "https://www.youtube.com/watch?v=CYYDMSL8tOc&list=PLouep20JDz2NQ-iczT4ewqag9Zx0_2zFj&index=7"},
+        {"title": "Create Tasks In Gmail #shorts", "url": "https://www.youtube.com/watch?v=rSY-uuAQfek&list=PLouep20JDz2NQ-iczT4ewqag9Zx0_2zFj&index=8"},
+        {"title": "Gmail's Hidden Side Tab: Huge Productivity Hack", "url": "https://www.youtube.com/watch?v=WTQI4dxCCgY&list=PLouep20JDz2NQ-iczT4ewqag9Zx0_2zFj&index=9"},
+        {"title": "Create Google Docs in Seconds with this hack", "url": "https://www.youtube.com/watch?v=qs6_dgzbrXM&list=PLouep20JDz2NQ-iczT4ewqag9Zx0_2zFj&index=10"},
+        {"title": "Have Gmail Give you Nudges about important Emails", "url": "https://www.youtube.com/watch?v=qCnaYXADycI&list=PLouep20JDz2NQ-iczT4ewqag9Zx0_2zFj&index=11"},
+
+    ]
+
+    # Function to convert watch URL to embed URL
+    def convert_to_embed_url(url):
+        parsed_url = urlparse(url)
+        query_params = parse_qs(parsed_url.query)
+        video_id = query_params.get("v", [""])[0]
+        playlist_id = query_params.get("list", [""])[0]
+        embed_url = f"https://www.youtube.com/embed/{video_id}"
+        if playlist_id:
+            embed_url += f"?list={playlist_id}"
+        return embed_url
+
+    # Update video URLs
+    for video in youtube_videos:
+        video["url"] = convert_to_embed_url(video["url"])
+
+    return render_template("videos.html", videos=youtube_videos,workshop_data=data)
+
+
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=False, host="0.0.0.0", port=port)
