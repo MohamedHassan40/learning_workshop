@@ -46,12 +46,12 @@
       onsubmit="return handleFormSubmit(event)">
 <div class="form-field" style="text-align: right; margin-bottom: 20px;">
   <label for="name" style="color: var(--light); font-size: 1rem; font-weight: 600; display: block;">الاسم</label>
-  <input type="text" id="name" name="name" placeholder="اكتب اسمك" style="padding: 1rem; background: rgba(31, 111, 235, 0.1); border: 1px solid rgba(88, 166, 255, 0.2); border-radius: 6px; color: var(--light); font-size: 1rem; transition: all 0.3s ease; width: 100%; max-width: 300px;">
+  <input type="text" id="name" name="name" placeholder="اكتب اسمك" style="padding: 1rem; background: rgba(31, 111, 235, 0.1); border: 1px solid rgba(88, 166, 255, 0.2); border-radius: 6px; color: var(--light); font-size: 1rem; transition: all 0.3s ease; width: 100%; max-width: 1000px;">
 </div>
 
 <div class="form-field" style="text-align: right; margin-bottom: 20px;">
   <label for="email" style="color: var(--light); font-size: 1rem; font-weight: 600; display: block;">بريد إلكتروني</label>
-  <input type="email" id="email" name="email" placeholder="أدخل بريدك الإلكتروني" style="padding: 1rem; background: rgba(31, 111, 235, 0.1); border: 1px solid rgba(88, 166, 255, 0.2); border-radius: 6px; color: var(--light); font-size: 1rem; transition: all 0.3s ease; width: 100%; max-width: 300px;">
+  <input type="email" id="email" name="email" placeholder="أدخل بريدك الإلكتروني" style="padding: 1rem; background: rgba(31, 111, 235, 0.1); border: 1px solid rgba(88, 166, 255, 0.2); border-radius: 6px; color: var(--light); font-size: 1rem; transition: all 0.3s ease; width: 100%; max-width: 1000px;">
 </div>
 
 
@@ -85,7 +85,8 @@
     {% for q in phase.open_ended %}
       <div class="open-question">
         <label for="{{ q.field_name }}">{{ q.question }}</label><br>
-        <textarea name="{{ q.field_name }}" id="{{ q.field_name }}" rows="4" class="open-textarea" placeholder="اكتب إجابتك هنا..."></textarea>
+        <textarea         style="padding: 1rem; background: rgba(31, 111, 235, 0.1); border: 1px solid rgba(88, 166, 255, 0.2); border-radius: 6px; color: var(--light); font-size: 1rem; transition: all 0.3s ease; width: 100%; max-width: 1000px;"
+  name="{{ q.field_name }}" id="{{ q.field_name }}" rows="4" class="open-textarea" placeholder="اكتب إجابتك هنا..."></textarea>
       </div>
     {% endfor %}
   </div>
