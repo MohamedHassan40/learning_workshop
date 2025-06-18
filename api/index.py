@@ -166,6 +166,7 @@ def videos():
         {"title": "Gmail's Hidden Side Tab: Huge Productivity Hack", "url": "https://www.youtube.com/watch?v=WTQI4dxCCgY&list=PLouep20JDz2NQ-iczT4ewqag9Zx0_2zFj&index=9"},
         {"title": "Create Google Docs in Seconds with this hack", "url": "https://www.youtube.com/watch?v=qs6_dgzbrXM&list=PLouep20JDz2NQ-iczT4ewqag9Zx0_2zFj&index=10"},
         {"title": "Have Gmail Give you Nudges about important Emails", "url": "https://www.youtube.com/watch?v=qCnaYXADycI&list=PLouep20JDz2NQ-iczT4ewqag9Zx0_2zFj&index=11"},
+        {"title": "NotebookLM", "url": "https://www.youtube.com/watch?v=YTfhgzDZZ0w&t=2s"},
 
     ]
 
