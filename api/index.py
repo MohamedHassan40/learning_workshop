@@ -119,7 +119,7 @@ def phase(phase_index):
     return render_template(
         'phase.html',
         phase_index=phase_index,
-        phase=phase,
+        phase=phase,workshop_data=data,
         total_phases=len(phases)
     )
 
